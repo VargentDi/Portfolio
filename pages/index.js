@@ -1,4 +1,4 @@
-import BaseLayout from "../components/layouts/BaseLayout"
+import BaseLayout from "@/components/layouts/BaseLayout"
 import { Button, Row, Col, Container } from 'reactstrap'
 import Typed from 'react-typed';
 
@@ -40,7 +40,7 @@ const Index = () => {
               <Typed
                 loop
                 strings={[
-                  'Tech Lover',"Team player","Student",'Fullstack Devloper','Agile developer']}
+                  'Tech Lover',"Team player",'Fullstack Devloper','Agile developer',"React","Java","Javascript","Lua"]}
                 typeSpeed={70}
                 backSpeed={70}
                 backDelay={1000}

@@ -1,6 +1,5 @@
 const express = require('express')
 
-const routes = require('./routes')
 const next = require('next')
 
 
@@ -12,7 +11,7 @@ const app = next({
 })
 
 
-const handle = routes.getRequestHandler(app)
+const handle = app.getRequestHandler()
 
 app.prepare().then(()=>{
   const server = express();

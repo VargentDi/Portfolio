@@ -11,8 +11,17 @@ html, body {
   font-family: 'Montserrat', 'Helvetica' !important;
 }
 
+
+.clickable{
+  cursor: pointer;
+}
+
 .absolute {
   position: absolute;
+}
+
+.base-page{
+  padding-top: 150px;
 }
 
 .self-typed {
