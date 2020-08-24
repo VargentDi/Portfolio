@@ -1,11 +1,15 @@
-const { Header } = require("../shared/Header")
+import  Header from "../shared/Header";
+const BaseLayout = props => {
+  return (
+    <div className="layout-container">
+      <Header />
+      <main className={`cover ${props.className}`}>
+        <div className="wrapper">
+          {props.children}
+        </div>
+      </main>
+    </div>
 
- const BaseLayout =props=>{
-  return(
-    <>
-      <Header/>
-      {props.children}
-    </>
   )
 }
 
