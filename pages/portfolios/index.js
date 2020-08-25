@@ -1,44 +1,43 @@
 
-
+import BaseLayout from '@/components/layouts/BaseLayout'
 import BasePage from '@/components/BasePage'
 import Link from "next/link"
-import { useEffect } from "React";
-const fetcher = url => fetch(url).then(r => r.json())
+import {useGetData} from '../../actions'
+// import useGetData from '@/actions'
 
 
-const portfolios = ({ post }) => {
-  // const { data, err } = useSWR('https://jsonplaceholder.typicode.com/posts', fetcher)
+const portfolios = () => {
 
-  // useEffect(() => {
-
-  // }, [])
+  const { data ,error,loading} = useGetData()
+  const renderPosts = (data) => {
+    return data.map(e =>
+      <li key={e.id} style={{ 'fontSize': '20px' }}>
+        <Link as={`/portfolios/${e.id}`} href='/portfolios/[id]'>
+          <a>
+            {e.title}
+          </a>
+        </Link>
+      </li>
+    )
+  }
 
   return (
     <BaseLayout>
       <BasePage>
         <h1>portfolios</h1>
-        {<ul>
-          {post.map((e) => {
-            return <li key={e.id} style={{ 'fontSize': '20px' }}>
-              <Link as={`/portfolios/${e.id}`} href='/portfolios/[id]'>
-                <a>
-                  {e.title}
-                </a>
-              </Link>
-            </li>
-          })}
+        {loading&&<p>loading....</p>}
+        {data&&<ul>
+          {renderPosts(data)}
         </ul>}
-
+        {error&&<div className='alert alert-danger'>{error.message}</div>}
       </BasePage>
-
-
     </BaseLayout>
   )
 }
-portfolios.getInitialProps = async (ctx) => {
+// portfolios.getInitialProps = async (ctx) => {
 
-  const res = await fetch('https://jsonplaceholder.typicode.com/posts')
-  const data = await res.json()
-  return { post: data.slice(0, 10) }
-}
+//   const res = await fetch('https://jsonplaceholder.typicode.com/posts')
+//   const data = await res.json()
+//   return { post: data.slice(0, 10) }
+// }
 export default portfolios

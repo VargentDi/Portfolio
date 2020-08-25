@@ -5,6 +5,7 @@ import '@/styles/main.scss'
 
 
 function MyApp({ Component, pageProps }) {
+
   return <Component {...pageProps} />
 }
 MyApp.getInitialProps = async ({Component,ctx} ) => {
