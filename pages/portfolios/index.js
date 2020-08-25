@@ -3,12 +3,13 @@ import BaseLayout from '@/components/layouts/BaseLayout'
 import BasePage from '@/components/BasePage'
 import Link from "next/link"
 import {useGetData} from '../../actions'
-// import useGetData from '@/actions'
+import { useGetUser } from "@/actions/user";
 
 
 const portfolios = () => {
+  const {data:user,error,loading:userLoading}=useGetUser()
 
-  const { data ,error,loading} = useGetData()
+  const { data:posts ,error:postError,loading} = useGetData()
   const renderPosts = (data) => {
     return data.map(e =>
       <li key={e.id} style={{ 'fontSize': '20px' }}>
@@ -22,14 +23,14 @@ const portfolios = () => {
   }
 
   return (
-    <BaseLayout>
+    <BaseLayout user={user} loading={userLoading}>
       <BasePage>
         <h1>portfolios</h1>
         {loading&&<p>loading....</p>}
-        {data&&<ul>
-          {renderPosts(data)}
+        {posts&&<ul>
+          {renderPosts(posts)}
         </ul>}
-        {error&&<div className='alert alert-danger'>{error.message}</div>}
+        {postError&&<div className='alert alert-danger'>{error.message}</div>}
       </BasePage>
     </BaseLayout>
   )

@@ -1,10 +1,14 @@
 import BaseLayout from "@/components/layouts/BaseLayout"
 import { Button, Row, Col, Container } from 'reactstrap'
 import Typed from 'react-typed';
+import { useGetUser } from "@/actions/user";
 
 const Index = () => {
+
+  const {data,error,loading}=useGetUser()
+
   return (
-    <BaseLayout className="cover">
+    <BaseLayout className="cover" user={data} loading={loading}>
       <div className="main-section">
         <div className="background-image">
           <img src="/images/background-index.png" />

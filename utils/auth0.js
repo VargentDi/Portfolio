@@ -1,4 +1,5 @@
 import { initAuth0 } from '@auth0/nextjs-auth0';
+import auth0 from '@/utils/auth0'
 
 export default initAuth0({
   domain: process.env.AUTH0_DOMAIN,
@@ -13,3 +14,38 @@ export default initAuth0({
     // The cookie lifetime (expiration) in seconds. Set to 8 hours by default.
   }
 });
+
+export const isAuthorized = (user, role) => {
+  return (user && user[process.env.AUTH0_NAMESPACE + '/roles'].includes(role));
+}
+
+
+export const authorizeUser = async (req, res) => {
+  const session = await auth0.getSession(req)
+
+  if (!session || !session.user) {
+    res.writeHead(302, {
+      Location: '/api/v1/login'
+    })
+    res.end()
+    return null
+  }
+  return session.user
+}
+
+
+
+export const withAuth = getData => role => async ({ req, res }) => {
+  const session = await auth0.getSession(req)
+
+  if (!session || !session.user || (role && !isAuthorized(session.user, role))) {
+    res.writeHead(302, {
+      Location: '/api/v1/login'
+    })
+    res.end()
+    return { props: {} }
+  }
+  const data = getData ? await getData() : {}
+  return { props: { user: session.user, ...data } }
+}
+

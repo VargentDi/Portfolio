@@ -1,7 +1,6 @@
-import auth0 from '@/utils/auth0';
+import auth0 from '@/utils/auth0'
 
 export default async function callback(req, res) {
-  console.log(req)
   try {
     await auth0.handleCallback(req, res, { redirectTo: '/' });
   } catch (error) {

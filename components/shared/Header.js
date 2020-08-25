@@ -19,18 +19,17 @@ const BsNavLink = props => {
   )
 }
 
-const LoginLink =()=>{
+const LoginLink = () => {
   return <a className='nav-link port-navbar-link' href='/api/v1/login' >Login</a>
 }
 
-const LogoutLink =()=>{
-  return <span className='nav-link port-navbar-link clickable'>Logout</span>
+const LogoutLink = () => {
+  return <a className='nav-link port-navbar-link' href='/api/v1/logout' >Logout</a>
 }
 
-const Header = () => {
+const Header = ({ user, loading }) => {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
-
   return (
     <div>
       <Navbar
@@ -38,37 +37,50 @@ const Header = () => {
         color="transparent"
         dark
         expand="md">
-          <Link href="/">
-            <a className="navbar-brand port-navbar-brand">Di Zhao</a>
-          </Link>
+        <Link href="/">
+          <a className="navbar-brand port-navbar-brand">Di Zhao</a>
+        </Link>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
             <NavItem className="port-navbar-item">
-              <BsNavLink href="/" title="Home"/>
+              <BsNavLink href="/" title="Home" />
             </NavItem>
             <NavItem className="port-navbar-item">
-              <BsNavLink href="/about" title="About"/>
+              <BsNavLink href="/about" title="About" />
             </NavItem>
             <NavItem className="port-navbar-item">
-              <BsNavLink href="/portfolios" title="Portfolios"/>
+              <BsNavLink href="/portfolios" title="Portfolios" />
             </NavItem>
             <NavItem className="port-navbar-item">
-              <BsNavLink href="/blogs" title="Blogs"/>
+              <BsNavLink href="/blogs" title="Blogs" />
             </NavItem>
             <NavItem className="port-navbar-item">
-              <BsNavLink href="/cv" title="Cv"/>
+              <BsNavLink href="/cv" title="Cv" />
             </NavItem>
+            {/* <NavItem className="port-navbar-item">
+              <BsNavLink href="/secret" title="secret" />
+            </NavItem>
+            <NavItem className="port-navbar-item">
+              <BsNavLink href="/secretssr" title="SecretSSR"/>
+            </NavItem>
+            <NavItem className="port-navbar-item">
+              <BsNavLink href="/onlyadmin" title="Admin"/>
+            </NavItem>
+            <NavItem className="port-navbar-item">
+              <BsNavLink href="/onlyadminssr" title="AdminSSR"/>
+            </NavItem> */}
           </Nav>
           <Nav navbar>
-          <NavItem className="port-navbar-item">
-              <LoginLink href="/cv" title="Cv"/>
-            </NavItem>
-          </Nav>
-          <Nav navbar>
-          <NavItem className="port-navbar-item">
-              <LogoutLink href="/cv" title="Cv"/>
-            </NavItem>
+            {!loading &&
+            <>{user && <NavItem className="port-navbar-item">
+              <LogoutLink  />
+            </NavItem>}
+            {!user&&
+            <NavItem className="port-navbar-item">
+              <LoginLink  />
+            </NavItem>}
+            </>}
           </Nav>
         </Collapse>
       </Navbar>
