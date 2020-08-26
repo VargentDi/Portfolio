@@ -1,7 +1,6 @@
 
+import { useState } from 'react';
 
-import { useEffect,useState } from "react";
-import useSWR from 'swr'
 export const fetcher = url => fetch(url).then(async res=>{
   const result = await res.json();
   if(res.status!=200){
@@ -10,14 +9,25 @@ export const fetcher = url => fetch(url).then(async res=>{
   return result
 })
 
-  export const useGetData=()=>{
-  const {data,error,...rest}= useSWR('/api/v1/posts',fetcher)
-  return {data,error,loading: !data&&!error,...rest}
+
+export function useApiHandler(apiCall) {
+  console.log('in ths api call',apiCall)
+  const [reqState, setReqState] = useState({
+    error: null,
+    data: null,
+    loading: false
+  });
+
+  const handler = async (...data) => {
+    setReqState({error: null, data: null, loading: true});
+    try {
+      const json = await apiCall(...data);
+      setReqState({error: null, data: json.data, loading: false});
+    } catch(e) {
+      const message = (e.response && e.response.message) || 'Ooops, something went wrong...';
+      setReqState({error: message, data: null, loading: false});
+    }
+  }
+
+  return [handler, {...reqState}]
 }
-
-  export const useGetDataById=(id)=>{
-  const {data,error,...rest}= useSWR(`/api/v1/posts/${id}`,fetcher)
-  return {data,error,loading: !data&&!error,...rest}
-}
-
-

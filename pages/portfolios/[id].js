@@ -1,36 +1,44 @@
 
 
-import { withRouter, useRouter } from 'next/router'
 import BaseLayout from '@/components/layouts/BaseLayout'
 import BasePage from '@/components/BasePage'
-import {useGetDataById} from '@/actions'
 import { useGetUser } from "@/actions/user";
+import PortfolioApi from '@/lib/api/portfolios';
 
 
-function Portfolios({query}) {
+function Portfolios({portfolio}) {
 
   const {data:user,loading:userLoading}=useGetUser()
 
-  const router = useRouter()
-  const { data:posts, error, loading } = useGetDataById(router.query.id)
   return (
     <BaseLayout user={user} loading={userLoading}>
-      <BasePage>
-        {loading && <p>loading....</p>}
-        {error && <div className='alert alert-danger'>{error.message}</div>}
-        {posts && <><h1>i am portfolios page</h1>
-          <h1>title :{posts.title}</h1>
-          <p>body:{posts.body}</p>
-          <p>id:{posts.id}</p></>}
+      <BasePage header="Portfolio Detail">
+        {
+          JSON.stringify(portfolio)
+        }
       </BasePage>
-
     </BaseLayout>
   )
 }
 
-Portfolios.getInitialProps = async ({ query }) => {
-  const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${query.id}`)
-  const data = await res.json()
-  return { post: data }
+export async function getStaticPaths() {
+  const json = await new PortfolioApi().getAll();
+  const portfolios = await json.json();
+
+  // Get the paths we want pre-render based on portfolio ID
+  const paths = portfolios.map(portfolio => {
+    return {
+      params: {id: portfolio._id}
+    }
+  })
+
+  // fallback: false means that "not found pages" will be resolved into 404 page
+  return { paths, fallback: false };
 }
-export default withRouter(Portfolios)
+
+export async function getStaticProps({params}) {
+  const json = await new PortfolioApi().getById(params.id);
+  const portfolio = await json.json();
+  return { props: {portfolio}};
+}
+export default (Portfolios)

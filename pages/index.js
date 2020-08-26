@@ -5,10 +5,11 @@ import { useGetUser } from "@/actions/user";
 
 const Index = () => {
 
-  const {data,error,loading}=useGetUser()
+  const { data, error, loading } = useGetUser()
 
   return (
-    <BaseLayout className="cover" user={data} loading={loading}>
+    <BaseLayout className="cover" user={data} loading={loading} navClass="transparent"
+    >
       <div className="main-section">
         <div className="background-image">
           <img src="/images/background-index.png" />
@@ -44,7 +45,7 @@ const Index = () => {
               <Typed
                 loop
                 strings={[
-                  'Tech Lover',"Team player",'Fullstack Devloper','Agile developer',"React","Java","Javascript","Lua"]}
+                  'Tech Lover', "Team player", 'Fullstack Devloper', 'Agile developer', "React", "Java", "Javascript", "Lua"]}
                 typeSpeed={70}
                 backSpeed={70}
                 backDelay={1000}
