@@ -2,7 +2,7 @@ const jwt = require ('express-jwt')
 const jwks = require('jwks-rsa')
 const config = require('../config');
 const request = require('request');
-
+console.log("config is",config)
 
 
 exports.checkJwt = jwt({
