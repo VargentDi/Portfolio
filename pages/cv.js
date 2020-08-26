@@ -1,21 +1,24 @@
-import BaseLayout from "@/components/layouts/BaseLayout"
-import { useGetUser } from "@/actions/user";
 
-import BasePage from '@/components/BasePage'
 
-const cv =()=>{
+import BaseLayout from '@/components/layouts/BaseLayout';
+import BasePage from '@/components/BasePage';
+import { useGetUser } from '@/actions/user';
+import { Row, Col } from 'reactstrap';
 
-  const {data,error,loading}=useGetUser()
-
-  return(
+const Cv = () => {
+  const { data, loading } = useGetUser();
+  return (
     <BaseLayout user={data} loading={loading}>
-    <BasePage>
-    <h1>cv</h1>
-    </BasePage>
+      <BasePage
+        title="My Experiences - Di Zhao">
+         <Row>
+          <Col md={{ size: 8, offset: 2 }}>
+            <iframe style={{ width: '100%', height: '800px' }} src="/di_cv.pdf" />
+          </Col>
+        </Row>
+      </BasePage>
     </BaseLayout>
-
   )
 }
 
-
-export default cv
+export default Cv;

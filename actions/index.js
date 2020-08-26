@@ -1,17 +1,17 @@
-
 import { useState } from 'react';
 
-export const fetcher = url => fetch(url).then(async res=>{
-  const result = await res.json();
-  if(res.status!=200){
-    return Promise.reject(result)
-  }
-  return result
-})
+export const fetcher = (url) =>
+  fetch(url).then(async res => {
+    const result = await res.json();
 
+    if (res.status !== 200) {
+      return Promise.reject(result);
+    } else {
+      return result;
+    }
+  });
 
 export function useApiHandler(apiCall) {
-  console.log('in ths api call',apiCall)
   const [reqState, setReqState] = useState({
     error: null,
     data: null,
@@ -23,9 +23,12 @@ export function useApiHandler(apiCall) {
     try {
       const json = await apiCall(...data);
       setReqState({error: null, data: json.data, loading: false});
+      return json.data;
     } catch(e) {
-      const message = (e.response && e.response.message) || 'Ooops, something went wrong...';
+      const message = (e.response && e.response.data) || 'Ooops, something went wrong...';
       setReqState({error: message, data: null, loading: false});
+      return Promise.reject(message);
+
     }
   }
 

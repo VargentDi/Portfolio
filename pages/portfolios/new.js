@@ -4,10 +4,12 @@ import withAuth from '@/hoc/withAuth';
 import { Row, Col } from 'reactstrap';
 import PortfolioForm from '@/components/PortfolioForm';
 import { useCreatePortfolio } from '@/actions/portfolio';
+import Redirect from '@/components/shared/Redirect';
 
 const PortfolioNew = ({user, loading: userLoading}) => {
   const [createPortfolio, {data, loading, error}] = useCreatePortfolio();
-
+  console.log('created data',data)
+  if (data) { return <Redirect to="/portfolios" /> }
 
   const _createPortfolio = (data) => {
     createPortfolio(data)
@@ -18,6 +20,7 @@ const PortfolioNew = ({user, loading: userLoading}) => {
         <Row>
           <Col md="8">
           <PortfolioForm onSubmit={_createPortfolio} />
+          { error && <div className="alert alert-danger mt-2">{error}</div>}
           </Col>
         </Row>
       </BasePage>
