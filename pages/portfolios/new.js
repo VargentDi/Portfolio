@@ -8,7 +8,6 @@ import Redirect from '@/components/shared/Redirect';
 
 const PortfolioNew = ({user, loading: userLoading}) => {
   const [createPortfolio, {data, loading, error}] = useCreatePortfolio();
-  console.log('created data',data)
   if (data) { return <Redirect to="/portfolios" /> }
 
   const _createPortfolio = (data) => {

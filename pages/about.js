@@ -17,7 +17,6 @@ const About = () => {
 
   const createFadeInClass = () => {
     if (typeof window !== 'undefined') {
-      console.log(window.__isAboutLoaded)
       return window.__isAboutLoaded ? '' : 'fadein';
     }
 

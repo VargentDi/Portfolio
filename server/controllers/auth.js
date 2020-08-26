@@ -51,7 +51,6 @@ exports.getAccessToken = (callback) => {
 }
 
 exports.getAuth0User = accessToken => userId => {
-  console.log(accessToken)
   const options = {
     method: 'GET',
     url: `${config.AUTH0_DOMAIN}/api/v2/users/${userId}?fields=name,picture,user_id`,

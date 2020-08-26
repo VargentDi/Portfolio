@@ -5,7 +5,6 @@ import { authorizeUser, withAuth } from "../utils/auth0";
 
 
 const secretssr = ({ user ,title}) => {
-  console.log(user)
   return (<BaseLayout user={user} loading={false}>
 
     <BasePage>
